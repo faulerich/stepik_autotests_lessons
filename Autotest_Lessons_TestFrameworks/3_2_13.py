@@ -75,7 +75,6 @@ class TestAbs(unittest.TestCase):
         excepted_text = "Congratulations! You have successfully registered!"
 
         # с помощью assert проверяем, что ожидаемый текст совпадает с текстом на странице сайта
-        # assert "Congratulations! You have successfully registered!" == welcome_text
         self.assertEqual(welcome_text, excepted_text, 'No text')
 
 # конструкция запуска кода напрямую отсюда (не из внешних файлов)
