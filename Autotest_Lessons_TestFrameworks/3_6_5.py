@@ -33,14 +33,16 @@ class TestLogin:
     def test_authorization(self, browser, load_config):
         login = load_config['login_stepik']
         password = load_config['password_stepik']
+        # ожидание страницы 5 сек
+        browser.implicitly_wait(5)
         # переходим по ссылке
         browser.get(link)
-        # !!! заменить на нормальные ожидания
-        time.sleep(5)
         # вводим логин и пароль
         input1 = browser.find_element(By.XPATH, "//input[@placeholder='E-mail']")
         input1.send_keys(login)
         input2 = browser.find_element(By.XPATH, "//input[@placeholder='Пароль']")
         input2.send_keys(password)
-
-time.sleep(5)
+        # Отправляем заполненную форму авторизации
+        button = browser.find_element(By.CLASS_NAME, "sign-form__btn.button_with-loader ")
+        button.click()
+        time.sleep(5)
