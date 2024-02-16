@@ -1,11 +1,5 @@
 
-# Задание: авторизация на сайте
-
-# !!! для работы теста необходимо в текущей папке иметь файл config.json вида:
-# login = load_config['login_stepik']
-# password = load_config['password_stepik']
-
-# !! в тесте хреново настроены ожидания. от тайм.слип надо  перейти к имплицитным
+# считывание текста сообщения об ошибке (Correct или Incorrect)
 
 import json
 import time
@@ -35,14 +29,13 @@ def browser():
     browser.quit()
 
 class TestLogin:
-    @pytest.mark.parametrize('lesson_num', ["236895", "236896", "236897", "236898", "236899", "236903", "236904", "236905",])
-    def test_authorization(self, browser, load_config, lesson_num):
+    def test_authorization(self, browser, load_config):
         login = load_config['login_stepik']
         password = load_config['password_stepik']
         # ожидание страницы 5 сек
         browser.implicitly_wait(5)
         # переходим по ссылке
-        link = f"https://stepik.org/lesson/{lesson_num}/step/1?auth=login"
+        link = f"https://stepik.org/lesson/236895/step/1?auth=login"
         browser.get(link)
         # вводим логин и пароль
         input1 = browser.find_element(By.XPATH, "//input[@placeholder='E-mail']")
@@ -55,22 +48,20 @@ class TestLogin:
         time.sleep(5)
         # вводим полученный ответ, очищая перед этим поле
         input1 = browser.find_element(By.XPATH, "//textarea[@placeholder='Напишите ваш ответ здесь...']")
-        input1.clear()
+        #input1.clear()
 
         y = calc()
-        input1.send_keys(y)
+        #input1.send_keys(y)
         time.sleep(5)
 
         # Отправляем заполненную форму с подсчитанным ответом
-        button = browser.find_element(By.CLASS_NAME, "submit-submission")
-        button.click()
+        #button = browser.find_element(By.CLASS_NAME, "submit-submission")
+        #button.click()
         time.sleep(3)
 
         # проверяем, есть ли на странице текст "Correct!"
+        #msgText = browser.find_element(By.XPATH, "//p[@class='smart-hints__hint']/text()").text
         msgText = browser.find_element(By.XPATH, "//div[@id='ember470']/p").text
-        time.sleep(3)
-        print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-        print(msgText)
-        print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+        print (msgText)
         excepted_text = "Correct!"
-        self.assertEqual(msgText, excepted_text, 'NOT A VALID MESSAGE')
+        # assert excepted_text in msgText.text
